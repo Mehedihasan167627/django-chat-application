@@ -1,0 +1,8 @@
+venv
+accounts/__pycache__
+accounts/migrations/__pycache__
+
+chat/__pycache__
+chat/migrations/__pycache__
+main_settings/__pycache__
+db.sqlite3 

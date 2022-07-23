@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WhatsApp Clone | Home</title>
+
+    <!-- css  -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css'%}" />
+  </head>
+
+  <body>
+    <div class="container" id="swup">
+      <!-- ========= left side ========== -->
+      <div class="left-side">
+        <div class="header">
+          <div class="user-imgBx">
+            <img src="{{request.user.profile_picture.url}}" alt="" />
+           
+          </div>
+          <h2>{{request.user.email}}</h2>
+           <a style="font-size:18px;float:right" href="{% url 'accounts:logout' %}">Logout</a>
+          <ul class="nav-icons">
+            <li>
+              <ion-icon name="scan-circle-outline"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="chatbox"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="ellipsis-vertical"></ion-icon>
+            </li>
+          </ul>
+        </div>
+        <input type="hidden" id="myID" value="{{request.user.id}}" />
+
+        <input type="hidden" id="friendID" value="{{friend.id}}" />
+        <div class="search-chat">
+          <input type="text" placeholder="Search or start new chat" />
+          <ion-icon name="search-outline"></ion-icon>
+        </div>
+
+        <div class="chat-list">
+          {% for f in user_list %}
+          <a
+            href="{% url 'chat:chat-room' f.token %}"
+            style="text-decoration: none"
+            ><div class="chat">
+              <div class="imgBx">
+                <img src="{{f.profile_picture.url}}" alt="" />
+              </div>
+
+              <div class="details">
+                <div class="head">
+                  <h4 class="name">{{f.email}}</h4>
+                  <span class="time">09:25</span>
+                </div>
+
+                <div class="msgs">
+                  <p class="msg">
+                    Hi, i found you on youtube also i found you on facebook
+                  </p>
+                  <b class="num unread">3</b>
+                </div>
+              </div>
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- ========= right side ========== -->
+      <div class="right-side">
+        <div class="header">
+          <div class="user-details">
+            <div class="user-imgBx">
+              <img src="{{friend.profile_picture.url}}" alt="" />
+            </div>
+
+            <h4>
+              {{friend.email}} <br />
+              <span>Online</span>
+            </h4>
+          </div>
+
+          <ul class="nav-icons">
+            <li>
+              <ion-icon name="search-outline"></ion-icon>
+            </li>
+            <li>
+              <ion-icon name="ellipsis-vertical"></ion-icon>
+            </li>
+          </ul>
+        </div>
+
+        <div
+          class="chatBx chatBox_{{friend.id}}"
+          id="identifyChatBox_{{friend.id}}"
+        >
+          {% for msg in message_list %} {% if msg.sender == request.user %}
+          <div class="msg msg-me">
+            <p>
+              {{msg.message}}<br />
+              <span>12:15</span>
+            </p>
+          </div>
+          {% else %}
+          <div class="msg msg-frnd">
+            <p>
+              {{msg.message}}<br />
+              <span>12:15</span>
+            </p>
+          </div>
+          {% endif %} {% endfor %}
+        </div>
+
+        <form id="form">
+          {% csrf_token %}
+          <div class="chat-input">
+            <ion-icon name="happy-outline"></ion-icon>
+            <ion-icon name="attach-outline"></ion-icon>
+            <input
+              type="text"
+              id="messageBox"
+              name="messageBox"
+              placeholder="Type a messsage"
+              required
+            />
+            <ion-icon name="mic-outline"></ion-icon>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- icons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+    <script src="{% static 'assets/js/jquery-3.2.1.min.js'%}"></script>
+
+    <script src="{% static 'assets/js/main.js'%}"></script>
+  </body>
+</html>
